@@ -42,21 +42,18 @@ class ProfileController extends GetxController {
     _serviceFireStoreRepository = ServiceFireStoreRepository();
   }
 
-  Future<ProfileModel> getProfil() async {
-    CollectionReference users =
-        FirebaseFirestore.instance.collection('profile');
-    return users.get();
-    // final response = FirebaseFirestore.instance
-    //     .collection('profile')
-    //     .get()
-    //     .then((value) => value.docs.map((element) {
-    //           print(element.data());
-    //           return ProfileModel.fromJson(element.data());
-    //         }));
-    // await _serviceFireStoreRepository.request(
-    //     collection: 'profile',
-    //     model: ProfileModel(),
-    //     method: QueryMethods.get);
+  Future<dynamic> getProfil() async {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc('userId')
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        print('Document data: ${documentSnapshot.data()}');
+      } else {
+        print('Document does not exist on the database');
+      }
+    });
   }
 
   Future<ProfileModel> ubahNamaService(Map<String, dynamic> body) {
